@@ -162,7 +162,7 @@ _.extend(Provider.prototype, {
         + '">' + out + '</div>';
     }
 
-    if (opts.fbInstant) {
+    if (opts.fbInstant && (opts.as !== 'link')) {
       out = '<figure class="op-interactive"><iframe>'
         + out
         + '</iframe></figure>';
