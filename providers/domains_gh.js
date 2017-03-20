@@ -23,12 +23,13 @@ module.exports = [
     version: 2,
     fetch: function(uri) {
       return this.fetchGraph(uri).then(function(data) {
+
         var photo = data.photo_url
           , parts = photo && photo.match(/media\/([^\/]+)/)
           , id = parts && parts[1];
 
         data.embed_src = id
-          ? ('//giphy.com/embed/' + id)
+          ? ('https://giphy.com/embed/' + id)
           : null;
 
         // NOTE: For some reason the embed width & height they are providing

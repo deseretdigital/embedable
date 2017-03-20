@@ -153,15 +153,15 @@ _.extend(Provider.prototype, {
       out = this[name](entry, opts);
     }
     // wrap in block tag
-    if (out && typeof out === 'string' && opts.block) {
-      if (opts.as !== 'link') {
-        style = opts.style;
-      }
+    if (out 
+      && typeof out === 'string' 
+      && opts.as !== 'link' 
+      && opts.block) {
       out = '<div class="embed-block'
         + (style ? ' embed-' + style : '')
         + '">' + out + '</div>';
     }
-
+    
     if (opts.fbInstant && (opts.as !== 'link')) {
       out = '<figure class="op-interactive"><iframe>'
         + out
@@ -299,17 +299,18 @@ _.extend(Provider.prototype, {
         ? Math.round((height / width) * 100)
         : 50;
 
-console.log("asEmbed", width, height, ratio);
-
-      out = '<div class="' + this.prefix + '-embed" style="'
-        + 'padding-bottom: ' + ratio
-        + '%;"><' + tag
+      out = '<' + tag
         + ' frameborder="0"'
-        + (title ? ' title="' + title + '"' : '')
+        + ((title && !opts.fbInstant) ? ' title="' + title + '"' : '')
         + ' src="' + data.embed_src
         + '" webkitallowfullscreen mozallowfullscreen allowfullscreen></'
         + tag + '>'
-        + '</div>';
+
+      if (!opts.fbInstant) {
+        out = '<div class="' + this.prefix + '-embed" style="'
+        + 'padding-bottom: ' + ratio
+        + '%;">'+ out + '</div>';
+      } 
     }
     // render pre-defined html
     else if (data.embed_html) {
