@@ -158,7 +158,7 @@ _.extend(Provider.prototype, {
       out = this[name](entry, opts);
     }
     
-    hasIframe = true; (out && typeof out === 'string' && out.search('iframe'));
+    hasIframe = (out && typeof out === 'string' && out.search('iframe') > 0);
 
     // wrap in block tag
     if (out 
@@ -172,7 +172,7 @@ _.extend(Provider.prototype, {
     }
    
     if (opts.fbInstant && (opts.as !== 'link')) {
-      out = hasIframe ? out : '<iframe>' + out + '</iframe>';
+      out = (hasIframe) ? out : '<iframe>' + out + '</iframe>';
       out = '<figure class="op-interactive">'
         + out
         + '</figure>';
