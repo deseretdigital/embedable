@@ -16,6 +16,8 @@ module.exports = [
     }
   }),
 
+  // <iframe src="https://giphy.com/embed/xUPGcHXN6vOiJA77ck" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+  // <p><a href="https://giphy.com/gifs/bbc-cute-animal-xUPGcHXN6vOiJA77ck">via GIPHY</a></p>
   Provider.extend({
     name: "giphy",
     type: "video",
@@ -26,9 +28,8 @@ module.exports = [
         var photo = data.photo_url
           , parts = photo && photo.match(/media\/([^\/]+)/)
           , id = parts && parts[1];
-
         data.embed_src = id
-          ? ('//giphy.com/embed/' + id)
+          ? ('https://giphy.com/embed/' + id)
           : null;
 
         // NOTE: For some reason the embed width & height they are providing
