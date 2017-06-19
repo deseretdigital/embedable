@@ -103,7 +103,7 @@ function extract(data, opts) {
 }
 
 function get(data, path) {
-  console.log(data);
+  // console.log(data);
   var parts = path.split('/')
     , part;
     
