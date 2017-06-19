@@ -103,9 +103,10 @@ function extract(data, opts) {
 }
 
 function get(data, path) {
+  console.log(data);
   var parts = path.split('/')
     , part;
-
+    
   for (var i = 0, l = parts.length; i < l; i++) {
     if (!data || typeof data !== 'object') {
       return;

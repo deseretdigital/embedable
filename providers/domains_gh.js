@@ -25,6 +25,7 @@ module.exports = [
     version: 2,
     fetch: function(uri) {
       return this.fetchGraph(uri).then(function(data) {
+
         var photo = data.photo_url
           , parts = photo && photo.match(/media\/([^\/]+)/)
           , id = parts && parts[1];
@@ -37,10 +38,10 @@ module.exports = [
         // photo_height are... so we are using those for now. We may consider
         // eliminating this at some point if they fix the problem.
         if (data.photo_width) {
-          data.embed_width = data.photo_width;
+          data.embed_width = data.photo_width || 600;
         }
         if (data.photo_height) {
-          data.embed_height = data.photo_height;
+          data.embed_height = data.photo_height || 300;
         }
         return data;
       });

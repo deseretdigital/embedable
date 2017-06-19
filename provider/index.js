@@ -134,12 +134,17 @@ _.extend(Provider.prototype, {
   render: function(entry, opts) {
     var style = 'full'
       , out = ''
-      , name;
+      , name
+      , hasIframe = false;
+
+    opts.width = (opts.fbInstant) ? 600 : undefined;
+    opts.height = (opts.fbInstant) ? 400 : undefined;
 
     // if error & error handling enabled
     if (entry.error && opts.errors) {
       out = this.asError(entry, opts);
     }
+
     // if noembed flag && embeded type
     else if (opts.noembed && entry.data.embed_src) {
       out = '';
@@ -152,15 +157,27 @@ _.extend(Provider.prototype, {
     else if ((name = this._as[opts.as])) {
       out = this[name](entry, opts);
     }
+    
+    hasIframe = (out && typeof out === 'string' && out.search('iframe') > 0);
+
     // wrap in block tag
-    if (out && typeof out === 'string' && opts.block) {
-      if (opts.as !== 'link') {
-        style = opts.style;
-      }
+    if (out 
+      && typeof out === 'string' 
+      && opts.as !== 'link' 
+      && opts.block
+      && !hasIframe) {
       out = '<div class="embed-block'
         + (style ? ' embed-' + style : '')
         + '">' + out + '</div>';
     }
+   
+    if (opts.fbInstant && (opts.as !== 'link')) {
+      out = (hasIframe) ? out : '<iframe>' + out + '</iframe>';
+      out = '<figure class="op-interactive">'
+        + out
+        + '</figure>';
+    }
+
     return out;
   },
 
@@ -285,24 +302,28 @@ _.extend(Provider.prototype, {
       tag = data.embed_tag || this.tag;
       title = data.embed_title || data.title;
 
-      width = parseInt(opts.width || data.embed_width, 10) || 0;
-      height = parseInt(opts.height || data.embed_height, 10) || 0;
+      width = parseInt(data.embed_width || opts.width, 10) || 0;
+      height = parseInt(data.embed_height || opts.height, 10) || 0;
 
       ratio = (width && height)
         ? Math.round((height / width) * 100)
         : 50;
 
-console.log("asEmbed", width, height, ratio);
+      var fbInstantDimensions = (opts.fbInstant) 
+        ? ' width=' + width + ' height=' + height : '';
 
-      out = '<div class="' + this.prefix + '-embed" style="'
-        + 'padding-bottom: ' + ratio
-        + '%;"><' + tag
+      out = '<' + tag
         + ' frameborder="0"'
-        + (title ? ' title="' + title + '"' : '')
+        + fbInstantDimensions
         + ' src="' + data.embed_src
-        + '" webkitallowfullscreen mozallowfullscreen allowfullscreen></'
-        + tag + '>'
-        + '</div>';
+        + '" webkitallowfullscreen mozallowfullscreen allowfullscreen>'
+        + '</' + tag + '>'
+
+      if (!opts.fbInstant) {
+        out = '<div class="' + this.prefix + '-embed" style="'
+        + 'padding-bottom: ' + ratio
+        + '%;">'+ out + '</div>';
+      } 
     }
     // render pre-defined html
     else if (data.embed_html) {
