@@ -144,7 +144,6 @@ _.extend(Provider.prototype, {
     if (entry.error && opts.errors) {
       out = this.asError(entry, opts);
     }
-
     // if noembed flag && embeded type
     else if (opts.noembed && entry.data.embed_src) {
       out = '';
@@ -157,27 +156,26 @@ _.extend(Provider.prototype, {
     else if ((name = this._as[opts.as])) {
       out = this[name](entry, opts);
     }
-    
-    hasIframe = (out && typeof out === 'string' && out.search('iframe') > 0);
-
-    // wrap in block tag
-    if (out 
-      && typeof out === 'string' 
-      && opts.as !== 'link' 
-      && opts.block
-      && !hasIframe) {
-      out = '<div class="embed-block'
-        + (style ? ' embed-' + style : '')
-        + '">' + out + '</div>';
+    // if out is empty, not a string, or is a link
+    if (!out || typeof out !== 'string' || opts.as === 'link') {
+      return out;
     }
-   
-    if (opts.fbInstant && (opts.as !== 'link')) {
+    // does this have an iframe?
+    hasIframe = out.search('iframe') > 0;
+
+    // if this is for an instant article
+    if (opts.fbInstant) {
       out = (hasIframe) ? out : '<iframe>' + out + '</iframe>';
       out = '<figure class="op-interactive">'
         + out
         + '</figure>';
     }
-
+    // NOTE: do we need to check for !hasIframe????
+    else if (opts.block) {
+      out = '<div class="embed-block'
+        + (style ? ' embed-' + style : '')
+        + '">' + out + '</div>';
+    }
     return out;
   },
 
