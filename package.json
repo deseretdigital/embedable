@@ -1,6 +1,6 @@
 {
   "name": "embedable",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "Oembed and OpenGraph embeds for content",
   "main": "index.js",
   "scripts": {
@@ -23,15 +23,14 @@
   },
   "homepage": "https://github.com/numinos1/embedable",
   "dependencies": {
-    "htmlparser2": "^3.9.0",
+    "htmlparser2": "^3.9.2",
     "lodash": "^3.10.1",
-    "request": "^2.74.0",
+    "request": "^2.81.0",
     "underscore.string": "^3.3.4",
-    "when": "^3.7.7"
+    "when": "^3.7.8"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.2.0",
-    "mocha": "^2.4.5"
+    "chai": "^4.1.1",
+    "chai-as-promised": "^7.1.1"
   }
 }
