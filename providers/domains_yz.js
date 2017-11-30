@@ -40,7 +40,7 @@ module.exports = [
       var parts;
 
       // handle embed lookups when doing oembed queries
-      if ((parts = uri.match(/embed\/(.*?)[&?]/))) {
+      if ((parts = uri.match(/embed\/([a-zA-Z0-9-_]+)/i))) {
         uri = 'https://www.youtube.com/watch?v=' + parts[1];
       }
       return this.fetchEmbed(uri, {
