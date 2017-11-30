@@ -116,7 +116,7 @@ _.extend(Embed.prototype, {
 
   fetch: function(opts) {
     var self = this
-      , pattern;    
+      , pattern;
 
     // ensure opts is an object
     if (typeof opts === 'string') {
@@ -153,7 +153,7 @@ _.extend(Embed.prototype, {
 
         // handle default provider redirects
         if (opts.provider === 'default'
-            && data.request 
+            && data.request
             && opts.uri !== data.request
             && !opts.redirect) {
           opts.redirect = data.request;
@@ -205,7 +205,7 @@ _.extend(Embed.prototype, {
   fetchProvider: function(pattern) {
     try {
       data = pattern.provider.fetch(
-        pattern.uri, 
+        pattern.uri,
         pattern.parts
       );
     }

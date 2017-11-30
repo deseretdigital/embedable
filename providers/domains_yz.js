@@ -37,6 +37,12 @@ module.exports = [
     ],
     version: 1,
     fetch: function(uri) {
+      var parts;
+
+      // handle embed lookups when doing oembed queries
+      if ((parts = uri.match(/embed\/(.*?)[&?]/))) {
+        uri = 'https://www.youtube.com/watch?v=' + parts[1];
+      }
       return this.fetchEmbed(uri, {
         api: 'https://www.youtube.com/oembed'
       });
