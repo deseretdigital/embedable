@@ -115,11 +115,11 @@ module.exports = [
   Provider.extend({
     name: 'deseretnews',
     type: 'rich',
-    uri: "//(?:[-\\w]+\\.)?deseretnews\\.com/.+$",
+    uri: "//:?embede.deseretnews\\.com/.+$",
     version: 0,
     fetch: function(uri) {
       return this.fetchEmbed(uri, {
-        api: "https://www.deseretnews.com/services/oembed",
+        api: "https://embed.deseretnews.com",
       });
     }
   }),
